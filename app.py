@@ -48,6 +48,7 @@ def main():
                 response = chain.run(input_documents=docs, question = user_question) #FAISS den çıkan soruya uygun parçları soruyla beraber modele verme
                 print(cb)
              st.write(response) 
+             st.header("Sorgunun bize olan maliyeti...:")
              st.write(cb)
         
 if __name__ == '__main__':
