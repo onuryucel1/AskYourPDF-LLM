@@ -39,11 +39,14 @@ def main():
 
         # kullanıcı girişi 
         user_question = st.text_input("PDF hakkında soru sorun..:")
+        chains_type = st.selectbox(
+            "Lütfen Zincir Tipini Seçiniz",
+        ("stuff","refine","map_reduce","map_rerank"))
         if user_question:
              docs = knowledge_base.similarity_search(user_question) #FAISS ile soruya benzer parçları getirme
 
              llm = OpenAI(temperature=0.9)
-             chain = load_qa_chain(llm, chain_type="stuff") #Stuff sabit değil! Başka zincir tipleri de var. 
+             chain = load_qa_chain(llm, chain_type=chains_type) #Stuff sabit değil! Başka zincir tipleri de var. 
              with get_openai_callback() as cb: #her sorgunun maliyetini terminal ekranına yazmak için oluşturduk.
                 response = chain.run(input_documents=docs, question = user_question) #FAISS den çıkan soruya uygun parçları soruyla beraber modele verme
                 print(cb)
